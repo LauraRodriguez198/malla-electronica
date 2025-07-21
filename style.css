@@ -1,0 +1,49 @@
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.semester {
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.subject {
+  background-color: #ecf0f1;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.subject:hover {
+  background-color: #d0e6ff;
+}
+
+.subject.completed {
+  text-decoration: line-through;
+  background-color: #b2f2bb;
+}
+
+.subject.locked {
+  background-color: #ccc;
+  pointer-events: none;
+  opacity: 0.6;
+}

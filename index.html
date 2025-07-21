@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Ingeniería Electrónica</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Malla Curricular Ingeniería Electrónica - UCentral</h1>
+
+  <div class="grid">
+    <div class="semester">
+      <h2>Semestre 1</h2>
+      <div class="subject" data-code="MAT1">Matemáticas I</div>
+      <div class="subject" data-code="QUI1">Química I</div>
+      <div class="subject" data-code="EXP1">Expresión y Desarrollo del Pensamiento</div>
+      <div class="subject" data-code="PRA1">Práctica Ingeniería I</div>
+    </div>
+    <div class="semester">
+      <h2>Semestre 2</h2>
+      <div class="subject locked" data-code="MAT2" data-prereq="MAT1">Matemáticas II</div>
+      <div class="subject" data-code="LOG1">Lógica Matemática</div>
+      <div class="subject" data-code="ALIN">Álgebra Lineal</div>
+      <div class="subject" data-code="CTX1">Contexto I</div>
+      <div class="subject locked" data-code="CIR1" data-prereq="QUI1">Circuitos Estacionarios</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
