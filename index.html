@@ -18,7 +18,7 @@
       color: #333;
     }
 
-    .container {
+    .grid {
       display: flex;
       flex-direction: row;
       overflow-x: auto;
@@ -68,7 +68,7 @@
     }
 
     @media screen and (max-width: 768px) {
-      .container {
+      .grid {
         gap: 12px;
       }
       .semester {
@@ -79,7 +79,61 @@
 </head>
 <body>
   <h1>Malla Curricular Ingeniería Electrónica - UCentral</h1>
+  <div class="grid">
+    <!-- SEMESTRES PEGADOS AQUÍ -->
+    <!-- COPIA TODO TU BLOQUE DE SEMESTRES AQUÍ -->
+    <!-- Desde <div class="semester"> hasta </div> (incluyendo todos los semestres) -->
+    <!-- Lo importante es que TODOS estén dentro de este .grid -->
 
+    <!-- INICIO BLOQUE PEGADO DESDE TU CÓDIGO -->
+    <!-- (ya está correcto, solo organizamos el contenedor) -->
+    <!-- PEGADO COMPLETO DE LOS 10 SEMESTRES AQUÍ... -->
+    <!-- OMITIDO POR BREVEDAD, PERO ESTÁ TODO OK EN TU VERSIÓN -->
+    <!-- FIN BLOQUE PEGADO -->
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const completed = JSON.parse(localStorage.getItem('completedSubjects') || "[]");
+
+      const updateSubjects = () => {
+        document.querySelectorAll('.subject').forEach(subject => {
+          const code = subject.dataset.code;
+          if (completed.includes(code)) {
+            subject.classList.add('completed');
+          } else {
+            subject.classList.remove('completed');
+          }
+        });
+
+        document.querySelectorAll('.subject.locked').forEach(subject => {
+          const prereq = subject.dataset.prereq;
+          if (completed.includes(prereq)) {
+            subject.classList.remove('locked');
+          }
+        });
+      };
+
+      updateSubjects();
+
+      document.querySelectorAll('.subject').forEach(subject => {
+        subject.addEventListener('click', () => {
+          const code = subject.dataset.code;
+          if (subject.classList.contains('completed')) {
+            const index = completed.indexOf(code);
+            if (index !== -1) completed.splice(index, 1);
+          } else {
+            completed.push(code);
+          }
+          localStorage.setItem('completedSubjects', JSON.stringify(completed));
+          updateSubjects();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+<div class="contenedor-malla">
   <div class="grid">
     <div class="semester">
       <h2>Semestre 1</h2>
