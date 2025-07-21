@@ -11,11 +11,24 @@ h1 {
 
 .grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  scroll-snap-type: x mandatory;
+}
+.grid::-webkit-scrollbar {
+  height: 10px;
+}
+.grid::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 5px;
 }
 
+.semester {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
 .semester {
   background-color: white;
   border: 2px solid #ddd;
