@@ -1,107 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Malla Curricular Ingeniería Electrónica</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 20px;
-      text-align: center;
+      padding: 0;
+      background-color: #f4f4f4;
     }
 
     h1 {
-      color: #2c3e50;
-      margin-bottom: 30px;
-      font-size: 26px;
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
     }
 
-    .grid {
+    .container {
       display: flex;
-      flex-wrap: nowrap;
-      gap: 20px;
+      flex-direction: row;
       overflow-x: auto;
-      padding: 10px 0;
-      scroll-snap-type: x mandatory;
-      justify-content: center;
-    }
-
-    .grid::-webkit-scrollbar {
-      display: none;
+      gap: 20px;
+      padding: 20px;
     }
 
     .semester {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      background-color: #fff;
-      border-radius: 15px;
-      padding: 20px;
-      width: 260px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
-
-    .semester:hover {
-      transform: translateY(-4px);
+      min-width: 250px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      flex-shrink: 0;
     }
 
     .semester h2 {
+      text-align: center;
       font-size: 18px;
-      color: #2c3e50;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
 
     .subject {
-      background-color: #ecf0f1;
-      margin: 10px 0;
-      padding: 10px 14px;
-      border-left: 4px solid #3498db;
-      border-radius: 8px;
-      text-align: left;
-      transition: all 0.3s ease;
-      color: #2c3e50;
-      font-weight: 500;
-      position: relative;
+      background: #e6ebf1;
+      border-left: 5px solid #007bff;
+      margin: 5px 0;
+      padding: 8px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
     .subject:hover {
-      background-color: #dfefff;
-      border-left-color: #2980b9;
+      background-color: #d0d8e0;
     }
 
-    /* Completado */
     .subject.completed {
+      background-color: #c8f5cd;
       text-decoration: line-through;
-      background-color: #e0fbe2;
-      border-left-color: #27ae60;
-      color: #2c3e50;
+      color: #666;
     }
 
-    /* Bloqueado */
     .subject.locked {
-      background-color: #dddddd;
-      border-left-color: #999;
-      opacity: 0.6;
+      background-color: #ddd;
+      color: #999;
       pointer-events: none;
-      color: #555;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .semester {
-        width: 80%;
-        min-width: 80%;
+    @media screen and (max-width: 768px) {
+      .container {
+        gap: 12px;
       }
-
-      h1 {
-        font-size: 22px;
+      .semester {
+        min-width: 220px;
       }
     }
   </style>
@@ -210,6 +181,49 @@
 </div>
 
 
-  <script src="script.js"></script>
+  <script>
+    // Al cargar, restaurar materias completadas
+    document.addEventListener("DOMContentLoaded", () => {
+      const completed = JSON.parse(localStorage.getItem('completedSubjects') || "[]");
+
+      document.querySelectorAll('.subject').forEach(subject => {
+        const code = subject.dataset.code;
+        if (completed.includes(code)) {
+          subject.classList.add('completed');
+        }
+      });
+
+      // Desbloquear materias si su prerrequisito está cumplido
+      document.querySelectorAll('.subject.locked').forEach(subject => {
+        const prereq = subject.dataset.prereq;
+        if (completed.includes(prereq)) {
+          subject.classList.remove('locked');
+        }
+      });
+    });
+
+    // Click para marcar/desmarcar materia
+    document.querySelectorAll('.subject').forEach(subject => {
+      subject.addEventListener('click', () => {
+        const code = subject.dataset.code;
+        subject.classList.toggle('completed');
+
+        // Guardar en localStorage
+        const completed = Array.from(document.querySelectorAll('.subject.completed'))
+                               .map(el => el.dataset.code);
+        localStorage.setItem('completedSubjects', JSON.stringify(completed));
+
+        // Desbloquear materias con este prerrequisito
+        document.querySelectorAll('.subject.locked').forEach(dep => {
+          if (dep.dataset.prereq === code) {
+            const req = document.querySelector(`.subject[data-code="${code}"]`);
+            if (req && req.classList.contains('completed')) {
+              dep.classList.remove('locked');
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
