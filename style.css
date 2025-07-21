@@ -3,60 +3,89 @@ body {
   background-color: #f4f4f4;
   padding: 20px;
   text-align: center;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 h1 {
   color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
+/* Scroll horizontal de semestres */
 .grid {
   display: flex;
   flex-wrap: nowrap;
   gap: 20px;
   overflow-x: auto;
-  padding-bottom: 20px;
+  padding: 10px;
   scroll-snap-type: x mandatory;
 }
 .grid::-webkit-scrollbar {
-  height: 10px;
+  height: 8px;
 }
 .grid::-webkit-scrollbar-thumb {
   background-color: #bbb;
   border-radius: 5px;
 }
 
+/* Cada semestre como tarjeta */
 .semester {
   flex: 0 0 auto;
   scroll-snap-align: start;
-}
-.semester {
   background-color: white;
   border: 2px solid #ddd;
   border-radius: 15px;
   padding: 20px;
   width: 260px;
+  min-width: 260px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.semester h2 {
+  font-size: 18px;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+/* Materias */
 .subject {
   background-color: #ecf0f1;
   margin: 10px 0;
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+/* Hover */
 .subject:hover {
   background-color: #d0e6ff;
+  transform: scale(1.03);
 }
 
+/* Estado: completado */
 .subject.completed {
   text-decoration: line-through;
   background-color: #b2f2bb;
 }
 
+/* Estado: bloqueado */
 .subject.locked {
   background-color: #ccc;
   pointer-events: none;
   opacity: 0.6;
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+  .semester {
+    width: 80%;
+    min-width: 80%;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
 }
